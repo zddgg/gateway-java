@@ -1,0 +1,10 @@
+server:
+  port: 12800
+mobile:
+  gateway:
+    httpclient:
+      strategy: webClient
+    sync:
+      websocket:
+        urls: ws://localhost:12801/websocket
+        allowOrigin: ws://localhost:12800
