@@ -3,15 +3,15 @@
 
  Source Server         : localhost_3306
  Source Server Type    : MySQL
- Source Server Version : 80027 (8.0.27)
+ Source Server Version : 80032 (8.0.32)
  Source Host           : localhost:3306
  Source Schema         : mobile_gateway
 
  Target Server Type    : MySQL
- Target Server Version : 80027 (8.0.27)
+ Target Server Version : 80032 (8.0.32)
  File Encoding         : 65001
 
- Date: 06/01/2023 21:33:44
+ Date: 13/05/2023 20:44:14
 */
 
 SET NAMES utf8mb4;
@@ -28,18 +28,22 @@ CREATE TABLE `application_info`  (
   `app_key` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '应用key',
   `app_secret` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `enterprise_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '企业编号',
+  `cryptor_enable` varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '请求是否加密',
+  `secret_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '密钥编号',
+  `request_secret_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '请求密钥编号',
+  `response_secret_id` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '响应密钥编号',
   `create_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '创建人员编号',
   `create_time` datetime NOT NULL COMMENT '创建时间',
   `update_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '更新人员编号',
   `update_time` datetime NOT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `application_info_app_id`(`app_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '应用信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '应用信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of application_info
 -- ----------------------------
-INSERT INTO `application_info` VALUES (1, '100', '测试应用一', '100', '100', '4bc8920d3c754ab3a05f241fd6fbc62e', 'x\'x', '2022-12-15 19:10:22', 'xx', '2022-12-25 14:39:37');
+INSERT INTO `application_info` VALUES (4, '80b9e0fbd0c24d4c86fcc18c0f29f350', '测试应用一', '100', '100100', 'cfee2b12c37341a6aba7fb5888dfc3fe', '1', NULL, 'c3d8ea08491749d48ae1466e6827ed36', '4c331e07fdc34f74b94b3ad9b73ee105', 'xx', '2023-02-09 17:02:26', 'xx', '2023-02-11 00:21:06');
 
 -- ----------------------------
 -- Table structure for application_route
@@ -54,12 +58,11 @@ CREATE TABLE `application_route`  (
   `update_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '更新人员编号',
   `update_time` datetime NOT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '应用路由表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '应用路由表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of application_route
 -- ----------------------------
-INSERT INTO `application_route` VALUES (1, '100', '100', 'xx', '2022-12-15 20:04:40', 'xx', '2022-12-15 20:04:43');
 
 -- ----------------------------
 -- Table structure for enterprise_info
@@ -75,12 +78,12 @@ CREATE TABLE `enterprise_info`  (
   `update_time` datetime NOT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `enterprise_info_enterprise_id`(`enterprise_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '企业信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '企业信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of enterprise_info
 -- ----------------------------
-INSERT INTO `enterprise_info` VALUES (2, '4bc8920d3c754ab3a05f241fd6fbc62e', 'cc1', 'xx', '2022-12-25 02:13:29', 'xx', '2022-12-25 02:13:34');
+INSERT INTO `enterprise_info` VALUES (3, 'cfee2b12c37341a6aba7fb5888dfc3fe', '测试企业一', 'xx', '2023-02-09 16:57:14', 'xx', '2023-02-09 16:57:14');
 
 -- ----------------------------
 -- Table structure for node_info
@@ -96,15 +99,12 @@ CREATE TABLE `node_info`  (
   `update_time` datetime NOT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `application_info_app_id`(`host` ASC, `port` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '节点信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '节点信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of node_info
 -- ----------------------------
-INSERT INTO `node_info` VALUES (1, '172.18.176.1', '12800', 'xx', '2022-12-26 00:15:45', 'xx', '2022-12-26 00:15:45');
-INSERT INTO `node_info` VALUES (2, '172.18.176.1', '12900', 'xx', '2022-12-26 00:20:26', 'xx', '2022-12-26 00:20:26');
-INSERT INTO `node_info` VALUES (3, '172.18.176.1', '12901', 'xx', '2022-12-26 00:21:06', 'xx', '2022-12-26 00:21:06');
-INSERT INTO `node_info` VALUES (4, '192.168.254.1', '12800', 'xx', '2022-12-31 23:09:32', 'xx', '2022-12-31 23:09:32');
+INSERT INTO `node_info` VALUES (7, '192.168.254.1', '12800', 'xx', '2023-02-09 17:06:17', 'xx', '2023-02-09 17:06:17');
 
 -- ----------------------------
 -- Table structure for route_info
@@ -123,14 +123,12 @@ CREATE TABLE `route_info`  (
   `update_time` datetime NOT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `route_info_route_id`(`route_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = 'API信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = 'API信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of route_info
 -- ----------------------------
-INSERT INTO `route_info` VALUES (1, '100', '测试路由一', '1', '/test', '100', 'xx', '2022-12-15 20:02:55', 'xx', '2022-12-15 20:02:57');
-INSERT INTO `route_info` VALUES (7, 'e1fcc7320f2a427eb55abc205501e31d', '11', '1', '/sss', '100', 'xx', '2022-12-24 22:48:59', 'xx', '2022-12-25 14:54:41');
-INSERT INTO `route_info` VALUES (8, 'f8ba90ec117446a4b6702a043f36b352', '12', '1', '/as', '100', 'xx', '2022-12-24 22:49:19', 'xx', '2022-12-24 22:49:19');
+INSERT INTO `route_info` VALUES (9, 'd82798f65c6941b2ab71420c53ba8086', '测试路由一', '1.0', '/test', '1c2a34569bda41018faf2148a51909c4', 'xx', '2023-02-09 17:05:47', 'xx', '2023-02-09 17:05:47');
 
 -- ----------------------------
 -- Table structure for secret_info
@@ -139,7 +137,11 @@ DROP TABLE IF EXISTS `secret_info`;
 CREATE TABLE `secret_info`  (
   `id` bigint NOT NULL AUTO_INCREMENT,
   `secret_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '密钥编号',
-  `secret_value` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '密钥值',
+  `secret_name` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '密钥名称',
+  `secret_type` varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '密钥类型',
+  `secret_key` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '密钥值',
+  `public_key` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '公钥',
+  `private_key` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '私钥',
   `encoding_type` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '编码类型',
   `create_id` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '创建人员编号',
   `create_time` datetime NOT NULL COMMENT '创建时间',
@@ -147,11 +149,13 @@ CREATE TABLE `secret_info`  (
   `update_time` datetime NOT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `secret_info_secret_id`(`secret_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '密钥信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '密钥信息表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of secret_info
 -- ----------------------------
+INSERT INTO `secret_info` VALUES (5, 'c3d8ea08491749d48ae1466e6827ed36', '测试密钥一', '2', 'xxx', '042ab0373687b91f7590b099077427a2dc042ebd89b489c5371baa36e41e256e04b6be18714d71e42355554e4f20f1c4ead73579155c396077ca953c433eb9a5a2', '26882bcbb54dd291dc40393f65555cbd042b017ce1bba6b48d1c390c4ff57b18', '1', 'xx', '2023-02-09 16:59:17', 'xx', '2023-02-10 20:26:41');
+INSERT INTO `secret_info` VALUES (6, '4c331e07fdc34f74b94b3ad9b73ee105', '网关测试密钥一', '2', NULL, '042c7e39a40bf7383b5d13f1e0dad1e6ac1ea7e26ab7700b265a5748a8eb0985ebdc27f04c30b9062d54178cf81e89b519cab70629eac275214149b78450f0b9f6', '46e42eae1eb1bf3e6c6ee158dd2e2f4a3a3837677358da2804e6921c7358954d', '1', 'xx', '2023-02-09 17:01:19', 'xx', '2023-02-10 20:26:53');
 
 -- ----------------------------
 -- Table structure for upstream_info
@@ -170,11 +174,11 @@ CREATE TABLE `upstream_info`  (
   `update_time` datetime NOT NULL COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `upstream_info_upstream_id`(`upstream_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '上游信息表' ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci COMMENT = '上游信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of upstream_info
 -- ----------------------------
-INSERT INTO `upstream_info` VALUES (1, '100', '测试上游一', '0', 'http://localhost:12301/test', NULL, 'xx', '2022-12-15 20:04:00', 'xx', '2022-12-24 22:41:13');
+INSERT INTO `upstream_info` VALUES (9, '1c2a34569bda41018faf2148a51909c4', '测试上游一', '0', 'http://127.0.0.1:8081/demo/test1', NULL, 'xx', '2023-02-09 17:04:38', 'xx', '2023-02-09 17:04:38');
 
 SET FOREIGN_KEY_CHECKS = 1;
